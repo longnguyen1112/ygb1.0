@@ -3,7 +3,7 @@ package com.example.ygb10.model;
 import javax.persistence.*;
 
 @Entity
-@Table()
+@Table(name="service")
 public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
