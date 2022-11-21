@@ -61,6 +61,13 @@ public class Service {
                 '}';
     }
 
+    public Service(Trainee trainee, Trainer trainer, int duration, String type) {
+        this.trainee = trainee;
+        this.trainer = trainer;
+        this.duration = duration;
+        this.type = type;
+    }
+
     public void setDuration(int duration) {
         this.duration = duration;
     }
