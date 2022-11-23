@@ -55,17 +55,18 @@ public class TraineeController {
         Service service = serviceRepository.save(_service);
         return new ResponseEntity<>(service, HttpStatus.CREATED);
     }
-    //get all mealplan(get)
-    /*@GetMapping("/{trainee_id}/services/{service_id}/mealplan")
+    //it works with findAll but not find by service
+    @GetMapping("/{trainee_id}/services/{service_id}/mealplan")
     public ResponseEntity<List<Mealplan>> getAllMealsByServiceId(@PathVariable("service_id") Long service_id)
     {
         if(!serviceRepository.existsById(service_id)){
             throw new ResourceNotFoundException("Service not found!");
         }
-        List<Mealplan> mealplans = mealplanRepository.findByServiceId(service_id);
+        List<Mealplan> mealplans = mealplanRepository.findAll();
+        //List<Mealplan> mealplans = mealplanRepository.findByservice(service_id);
         return new ResponseEntity<>(mealplans,HttpStatus.OK);
     }
-    @GetMapping("/{trainee_id}/services/{service_id}/workout")
+    /*@GetMapping("/{trainee_id}/services/{service_id}/workout")
     public ResponseEntity<List<Workoutplan>> getAllWorkoutsByServiceId(@PathVariable("service_id") Long service_id)
     {
         if(!serviceRepository.existsById(service_id)){
