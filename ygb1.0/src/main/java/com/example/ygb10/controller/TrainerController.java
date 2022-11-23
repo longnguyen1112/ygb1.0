@@ -71,6 +71,10 @@ public class TrainerController {
                 .orElseThrow(()->new ResourceNotFoundException("Service not found!"));
         Mealplan mealplan = mealplanRepository.findById(mealplan_id)
                 .orElseThrow(()->new ResourceNotFoundException("Meal plan not found!"));
+
+
+
+        
     }
 
     //change workout plan
