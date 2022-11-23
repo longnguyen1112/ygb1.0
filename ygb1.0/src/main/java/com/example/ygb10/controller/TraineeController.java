@@ -1,13 +1,10 @@
 package com.example.ygb10.controller;
 
 import com.example.ygb10.exception.ResourceNotFoundException;
-import com.example.ygb10.model.Service;
-import com.example.ygb10.model.Trainee;
-import com.example.ygb10.model.Trainer;
-import com.example.ygb10.repository.ServiceRepository;
-import com.example.ygb10.repository.TraineeRepository;
-import com.example.ygb10.repository.TrainerRepository;
+import com.example.ygb10.model.*;
+import com.example.ygb10.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +21,10 @@ public class TraineeController {
 
     @Autowired
     ServiceRepository serviceRepository;
+    @Autowired
+    MealplanRepository mealplanRepository;
+    @Autowired
+    WorkoutplanRepository workoutplanRepository;
 
     //view all the trainers (get)
     @GetMapping("/{trainee_id}/trainers")
@@ -42,12 +43,36 @@ public class TraineeController {
 
     //pick trainers (post) which also means create a service
     @PostMapping("/{trainee_id}/trainers/{trainer_id}")
-    public Service createService(@PathVariable("trainee_id") Long trainee_id,@PathVariable("trainer_id") Long trainer_id,int duration,String type)
-    {
+    public ResponseEntity<Service> createService(@PathVariable("trainee_id") Long trainee_id,
+    @PathVariable("trainer_id") Long trainer_id,
+    @RequestBody Service _service) {
         Trainee currentTrainee = traineeRepository.findById(trainee_id)
-                .orElseThrow(()->new ResourceNotFoundException("Trainer not exist"+trainee_id));
+                .orElseThrow(()->new ResourceNotFoundException("Trainee not exist with id:"+trainee_id));
         Trainer currentTrainer = trainerRepository.findById(trainer_id)
-                .orElseThrow(()->new ResourceNotFoundException("Trainer not exist"+trainer_id));
-        Service service = serviceRepository.save(new Service())
+                .orElseThrow(()->new ResourceNotFoundException("Trainer not exist with id:"+trainer_id));
+        _service.setTrainee(currentTrainee);
+        _service.setTrainer(currentTrainer);
+        Service service = serviceRepository.save(_service);
+        return new ResponseEntity<>(service, HttpStatus.CREATED);
     }
+    //get all mealplan(get)
+    /*@GetMapping("/{trainee_id}/services/{service_id}/mealplan")
+    public ResponseEntity<List<Mealplan>> getAllMealsByServiceId(@PathVariable("service_id") Long service_id)
+    {
+        if(!serviceRepository.existsById(service_id)){
+            throw new ResourceNotFoundException("Service not found!");
+        }
+        List<Mealplan> mealplans = mealplanRepository.findByServiceId(service_id);
+        return new ResponseEntity<>(mealplans,HttpStatus.OK);
+    }
+    @GetMapping("/{trainee_id}/services/{service_id}/workout")
+    public ResponseEntity<List<Workoutplan>> getAllWorkoutsByServiceId(@PathVariable("service_id") Long service_id)
+    {
+        if(!serviceRepository.existsById(service_id)){
+            throw new ResourceNotFoundException("Service not found!");
+        }
+        List<Workoutplan> workoutplans = workoutplanRepository.findByServiceId(service_id);
+        return new ResponseEntity<>(workoutplans,HttpStatus.OK);
+    }*/
+
 }

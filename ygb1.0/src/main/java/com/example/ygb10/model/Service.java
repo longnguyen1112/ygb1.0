@@ -51,21 +51,15 @@ public class Service {
 
     }
 
+
     @Override
     public String toString() {
         return "Service{" +
-                "service_id=" + service_id +
-                ", trainee=" + trainee +
+                "trainee=" + trainee +
+                ", trainer=" + trainer +
                 ", duration=" + duration +
                 ", type='" + type + '\'' +
                 '}';
-    }
-
-    public Service(Trainee trainee, Trainer trainer, int duration, String type) {
-        this.trainee = trainee;
-        this.trainer = trainer;
-        this.duration = duration;
-        this.type = type;
     }
 
     public void setDuration(int duration) {
