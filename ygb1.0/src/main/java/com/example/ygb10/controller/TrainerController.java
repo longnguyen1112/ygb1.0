@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -29,15 +30,23 @@ public class TrainerController {
     WorkoutplanRepository workoutplanRepository;
 
     //view all assigned trainees
-    @GetMapping("/{trainer_id}/trainees")
+    //view all service and then view all trainee in the service
+    @GetMapping("/{trainer_id}/service/trainees")
     public List<Trainee> getAllTrainee() {
-
+        List<Service> services = serviceRepository.findAll();
+        List<Trainee> trainees = Collections.emptyList();
+        services.forEach(service -> {service.getTrainee();});
+        //need to ask someone how to map this
+        return trainees;
     }
 
     //view specific trainee
-    @GetMapping("/{trainer_id}/trainees/{trainee_id}")
-    public ResponseEntity<Trainee> getTraineeByid() {
-
+    @GetMapping("/{trainer_id}/service/{service_id}/trainees/{trainee_id}")
+    public ResponseEntity<Trainee> getTraineeByid(@PathVariable("trainee_id") Long trainee_id) {
+        //same
+        Trainee tempTrainee = traineeRepository.findById(trainee_id)
+                .orElseThrow(()->new ResourceNotFoundException("not found"));
+        return new ResponseEntity<>(tempTrainee,HttpStatus.OK);
     }
 
     //assign meal plan
@@ -74,7 +83,7 @@ public class TrainerController {
 
 
 
-        
+
     }
 
     //change workout plan
