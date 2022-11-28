@@ -80,15 +80,27 @@ public class TrainerController {
                 .orElseThrow(()->new ResourceNotFoundException("Service not found!"));
         Mealplan mealplan = mealplanRepository.findById(mealplan_id)
                 .orElseThrow(()->new ResourceNotFoundException("Meal plan not found!"));
+        mealplan.setService(_mealplan.getService());
+        mealplan.setDay_in_week(_mealplan.getDay_in_week());
+        mealplan.setMeal_in_day(_mealplan.getMeal_in_day());
+        mealplan.setMeal_desc(_mealplan.getMeal_desc());
 
-
-
-
+        return new ResponseEntity<>(mealplanRepository.save(mealplan),HttpStatus.OK);
     }
 
     //change workout plan
     @PutMapping("/{trainer_id}/service/{service_id}/workoutplan/{workoutplan_id}")
-    public ResponseEntity<Workoutplan> updateWorkoutplan() {
-
+    public ResponseEntity<Workoutplan> updateWorkoutplan(@PathVariable("service_id") Long service_id,
+                                                         @PathVariable("workoutplan_id") Long workoutplan_id,
+                                                         @RequestBody Workoutplan _workoutplan) {
+        Service service = serviceRepository.findById(service_id)
+                .orElseThrow(()-> new ResourceNotFoundException("not found"));
+        Workoutplan workoutplan = workoutplanRepository.findById(workoutplan_id)
+                .orElseThrow(()->new ResourceNotFoundException("not found"));
+        workoutplan.setService(_workoutplan.getService());
+        workoutplan.setDay_in_week(_workoutplan.getDay_in_week());
+        workoutplan.setSet_rep(_workoutplan.getSet_rep());
+        workoutplan.setWorkout_desc(_workoutplan.getWorkout_desc());
+        return new ResponseEntity<>(workoutplanRepository.save(workoutplan),HttpStatus.OK);
     }
 }
