@@ -11,13 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/admin/")
 public class AdminController {
     @Autowired
     TrainerRepository trainerRepository;
 
-    //this will just do 4 basic CRUD
+    //this will just do 5 basic CRUD
     //first, get request for all and for id
     @GetMapping("trainers")
     public List<Trainer> getAllTrainers(){
@@ -33,7 +34,7 @@ public class AdminController {
         return ResponseEntity.ok(trainer);
     }
 
-    @PostMapping("/trainer")
+    @PostMapping("/trainers")
     public Trainer createTrainer(@RequestBody Trainer _trainer)
     {
         return trainerRepository.save(_trainer);

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface MealplanRepository extends JpaRepository<Mealplan,Long> {
-    List<Mealplan> findByservice(Long postid);
+    List<Mealplan> findByService(Long sId);
 }
 
 

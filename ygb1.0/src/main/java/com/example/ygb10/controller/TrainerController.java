@@ -32,12 +32,12 @@ public class TrainerController {
     //view all assigned trainees
     //view all service and then view all trainee in the service
     @GetMapping("/{trainer_id}/service/trainees")
-    public List<Trainee> getAllTrainee() {
+    public List<Service> getAllTrainee() {
         List<Service> services = serviceRepository.findAll();
-        List<Trainee> trainees = Collections.emptyList();
-        services.forEach(service -> {service.getTrainee();});
+        //List<Trainee> trainees = Collections.emptyList();
+        //services.forEach(service -> {service.getTrainee();});
         //need to ask someone how to map this
-        return trainees;
+        return services;
     }
 
     //view specific trainee

@@ -62,8 +62,8 @@ public class TraineeController {
         if(!serviceRepository.existsById(service_id)){
             throw new ResourceNotFoundException("Service not found!");
         }
-        List<Mealplan> mealplans = mealplanRepository.findAll();
-        //List<Mealplan> mealplans = mealplanRepository.findByservice(service_id);
+        //List<Mealplan> mealplans = mealplanRepository.findAll();
+        List<Mealplan> mealplans = mealplanRepository.findByService(service_id);
         return new ResponseEntity<>(mealplans,HttpStatus.OK);
     }
     /*@GetMapping("/{trainee_id}/services/{service_id}/workout")
